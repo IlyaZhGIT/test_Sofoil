@@ -29,7 +29,7 @@ class TestSoccer(unittest.TestCase):
     #     second_team = Team()
     #     match = Match(first_team, second_team)
 
-    #     with self.assertRaises(MatchErrors.c1):
+    #     with self.assertRaises(MatchErrors.CANT_SHOOT_GOAL_NOT_PLAYER):
     #         Soccer.can_shoot_goal(person, match)
 
     def test_shoot_goal_player_increment_score(self):
