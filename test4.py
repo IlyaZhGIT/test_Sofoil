@@ -2,21 +2,66 @@
 Написать набор юнит тестов к данному классу
 """
 
-from enum import Enum
 
+class MatchErrors:
+    class CantShootGoalNotPlayer(Exception):
+        pass
 
-class MatchErrors(Enum):
-    CANT_SHOOT_GOAL_NOT_PLAYER = "Player is not allowed to shoot a goal"
-    CANT_SHOOT_GOAL_MATCH_NOT_STARTED = "Match is not started yet"
-    CANT_SHOOT_GOAL_NOT_IN_TEAMS = "Player is not in any of the teams"
-    CANT_START_NOT_REFEREE = "Only the referee can start the match"
-    CANT_START_ALREADY_STARTED = "Match is already started"
-    CANT_START_NOT_EVEN_TEAMS = "Teams must have an equal number of players"
-    CANT_FINISH_NOT_REFEREE = "Only the referee can finish the match"
+    class CantShootGoalMatchNotStarted(Exception):
+        pass
+
+    class CantShootGoalNotInTeams(Exception):
+        pass
+
+    class CantStartNotReferee(Exception):
+        pass
+
+    class CantStartAlreadyStarted(Exception):
+        pass
+
+    class CantStartNotEvenTeams(Exception):
+        pass
+
+    class CantFinishNotReferee(Exception):
+        pass
+
+    CANT_SHOOT_GOAL_NOT_PLAYER = CantShootGoalNotPlayer
+    CANT_SHOOT_GOAL_MATCH_NOT_STARTED = CantShootGoalMatchNotStarted
+    CANT_SHOOT_GOAL_NOT_IN_TEAMS = CantShootGoalNotInTeams
+    CANT_START_NOT_REFEREE = CantStartNotReferee
+    CANT_START_ALREADY_STARTED = CantStartAlreadyStarted
+    CANT_START_NOT_EVEN_TEAMS = CantStartNotEvenTeams
+    CANT_FINISH_NOT_REFEREE = CantFinishNotReferee
 
 
 class Player:
-    pass
+    def __init__(self, name: str, is_referee: bool = False) -> None:
+        self.name = name
+        self.is_referee = is_referee
+        self.total_goals = 0
+        self.cash = 0
+
+
+class Team:
+    def __init__(self, players: list[Player] = None) -> None:
+        if players is None:
+            players = []
+
+        self.players = players
+        self.goals = 0
+
+
+class Match:
+    BEFORE_START = 0
+    STARTED = 1
+    FINISHED = 2
+
+    def __init__(self, first_team: Team, second_team: Team) -> None:
+        self.first_team = first_team
+        self.second_team = second_team
+        self.status = self.BEFORE_START
+        self.winner = None
+        self.reward = 1_000_000
 
 
 class Soccer:
@@ -95,3 +140,11 @@ class Soccer:
                 person.name, referee_salary
             )
         )
+
+
+# person = "not person"
+# first_team = Team()
+# second_team = Team()
+# match = Match(first_team, second_team)
+
+# Soccer.can_shoot_goal(person, match)
